@@ -1,4 +1,4 @@
-# CHIP-8 Interpreter
+# CHIP-8 Interpreter ![Rust](https://github.com/alex0809/chip8-rust/workflows/Rust/badge.svg)
 
 This is a CHIP-8 interpreter written in Rust.
 
