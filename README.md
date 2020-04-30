@@ -19,7 +19,7 @@ a step-mode for executing instructions only on press of a key. List them with
 `chip8 --help`
 
 ## Controls
-The 12-key keypad that the CHIP-8 requires is mapped like this:
+The 12-key keypad that the CHIP-8 requires is mapped to:
 
 | | | | |
 | --- | --- | --- | --- |
@@ -29,6 +29,6 @@ The 12-key keypad that the CHIP-8 requires is mapped like this:
 | X | C | V | B |
 
 Other key mappings:
-* `r`: Reset interpreter
+* `Backspace`: Reset interpreter
 * `Space`: Execute next instruction in step mode
 * `Escape`: Quit
