@@ -15,13 +15,22 @@ impl Memory {
 
     /// Read the next two bytes from memory
     pub fn two_byte_read(&self, index: u16) -> (u8, u8) {
-        trace!("\tMEMORY - Two byte read from {:X} = {:X}-{:X}", index, self.ram[index as usize], self.ram[(index+1) as usize]);
+        trace!(
+            "\tMEMORY - Two byte read from {:X} = {:X}-{:X}",
+            index,
+            self.ram[index as usize],
+            self.ram[(index + 1) as usize]
+        );
         (self.ram[index as usize], self.ram[(index + 1) as usize])
     }
 
     /// Read a byte from memory.
     pub fn byte_read(&self, index: u16) -> u8 {
-        trace!("\tMEMORY - Byte read from {:X} = {:X}", index, self.ram[index as usize]);
+        trace!(
+            "\tMEMORY - Byte read from {:X} = {:X}",
+            index,
+            self.ram[index as usize]
+        );
         self.ram[index as usize]
     }
 
@@ -33,7 +42,11 @@ impl Memory {
 
     /// Write an array of bytes in memory, starting from start_index.
     pub fn bytes_write(&mut self, start_index: usize, bytes: &[u8]) {
-        trace!("\tMEMORY - Bytes write to {:X} with length {:X}", start_index, bytes.len());
+        trace!(
+            "\tMEMORY - Bytes write to {:X} with length {:X}",
+            start_index,
+            bytes.len()
+        );
         for i in 0..bytes.len() {
             self.ram[i + start_index] = bytes[i];
         }

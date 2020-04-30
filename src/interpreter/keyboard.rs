@@ -8,11 +8,17 @@ pub struct Keyboard {
 
 impl Keyboard {
     pub fn new() -> Self {
-        Keyboard { key_states: [false; NUMBER_OF_KEYS as usize] }
+        Keyboard {
+            key_states: [false; NUMBER_OF_KEYS as usize],
+        }
     }
 
     pub fn key_state(&mut self, key: u8) -> bool {
-        trace!("\tKEYBOARD - Read key {} = {}", key, self.key_states[key as usize]);
+        trace!(
+            "\tKEYBOARD - Read key {} = {}",
+            key,
+            self.key_states[key as usize]
+        );
         let state = self.key_states[key as usize];
         if state {
             self.key_states[key as usize] = false;

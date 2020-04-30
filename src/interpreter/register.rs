@@ -47,13 +47,23 @@ impl Register<u8> for Register8Bit {
 
     fn increment_value_by(&mut self, increment_by: u8) -> u8 {
         self.value = self.value + increment_by;
-        trace!("\tREGISTER - Increment {} by {:X} = {:X}", self.name, increment_by, self.value);
+        trace!(
+            "\tREGISTER - Increment {} by {:X} = {:X}",
+            self.name,
+            increment_by,
+            self.value
+        );
         self.value
     }
 
     fn decrement_value_by(&mut self, decrement_by: u8) -> u8 {
         self.value = self.value - decrement_by;
-        trace!("\tREGISTER - Decrement {} by {:X} = {:X}", self.name, decrement_by, self.value);
+        trace!(
+            "\tREGISTER - Decrement {} by {:X} = {:X}",
+            self.name,
+            decrement_by,
+            self.value
+        );
         self.value
     }
 
@@ -102,13 +112,23 @@ impl Register<u16> for Register16Bit {
 
     fn increment_value_by(&mut self, increment_by: u16) -> u16 {
         self.value = self.value + increment_by;
-        trace!("\tREGISTER - Increment {} by {:X} = {:X}", self.name, increment_by, self.value);
+        trace!(
+            "\tREGISTER - Increment {} by {:X} = {:X}",
+            self.name,
+            increment_by,
+            self.value
+        );
         self.value
     }
 
     fn decrement_value_by(&mut self, decrement_by: u16) -> u16 {
         self.value = self.value - decrement_by;
-        trace!("\tREGISTER - Decrement {} by {:X} = {:X}", self.name, decrement_by, self.value);
+        trace!(
+            "\tREGISTER - Decrement {} by {:X} = {:X}",
+            self.name,
+            decrement_by,
+            self.value
+        );
         self.value
     }
 
@@ -118,7 +138,11 @@ impl Register<u16> for Register16Bit {
 
     fn reset(&mut self) {
         self.value = self.initial_value;
-        trace!("\tREGISTER - Reset {} to {:X}", self.name, self.initial_value);
+        trace!(
+            "\tREGISTER - Reset {} to {:X}",
+            self.name,
+            self.initial_value
+        );
     }
 }
 

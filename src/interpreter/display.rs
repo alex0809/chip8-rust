@@ -1,5 +1,5 @@
-use log::trace;
 use crate::config::{SCREEN_X, SCREEN_Y};
+use log::trace;
 
 pub struct Display {
     pixel_states: [[bool; SCREEN_Y]; SCREEN_X],
@@ -7,7 +7,9 @@ pub struct Display {
 
 impl Display {
     pub fn new() -> Self {
-        Display { pixel_states: [[false; SCREEN_Y]; SCREEN_X] }
+        Display {
+            pixel_states: [[false; SCREEN_Y]; SCREEN_X],
+        }
     }
 
     /// Draw the sprite starting on top left x and y coordinates. Return value is whether there was a collision.
@@ -33,12 +35,14 @@ impl Display {
         }
         let x = x_option.expect("Error getting x value");
         let y = y_option.expect("Error getting y value");
-        if x as usize >= self.pixel_states.len() || y as usize >= self.pixel_states[x as usize].len() {
+        if x as usize >= self.pixel_states.len()
+            || y as usize >= self.pixel_states[x as usize].len()
+        {
             return false;
         }
         let previous_value = self.pixel_states[x as usize][y as usize];
         self.pixel_states[x as usize][y as usize] = !previous_value;
-        return previous_value
+        return previous_value;
     }
 
     /// Get the current state of the display.

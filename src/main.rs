@@ -1,15 +1,14 @@
 use std::fs::File;
 
 use crate::interpreter::Interpreter;
-use clap::{Arg, App};
+use clap::{App, Arg};
 use log::LevelFilter;
 
+mod config;
 mod instruction;
 mod interpreter;
-mod sdl2;
 mod logger;
-mod config;
-
+mod sdl2;
 
 fn main() {
     let matches = App::new("Chip-8 Interpreter")
@@ -38,7 +37,7 @@ fn main() {
         "info" => LevelFilter::Info,
         "debug" => LevelFilter::Debug,
         "trace" => LevelFilter::Trace,
-        _ => unreachable!()
+        _ => unreachable!(),
     };
     let step_mode = matches.is_present("step_mode");
 

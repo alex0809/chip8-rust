@@ -148,7 +148,9 @@ impl fmt::Display for Instruction {
             Instruction::LoadAddr(nnn) => write!(f, "LD I, {:03X}", nnn),
             Instruction::JumpToAddressPlusV0(nnn) => write!(f, "JP [0], {:03X}", nnn),
             Instruction::RandomAnd(vx, kk) => write!(f, "RND  [{:02X}], {:02X}", vx, kk),
-            Instruction::DrawVxVyN(vx, vy, n) => write!(f, "DRW [{:02X}], [{:02X}], {:02X}", vx, vy, n),
+            Instruction::DrawVxVyN(vx, vy, n) => {
+                write!(f, "DRW [{:02X}], [{:02X}], {:02X}", vx, vy, n)
+            }
             Instruction::SkipIfKeyPressed(vx) => write!(f, "SKP [{:02X}]", vx),
             Instruction::SkipIfKeyNotPressed(vx) => write!(f, "SKNP [{:02X}]", vx),
             Instruction::LoadDelayTimer(vx) => write!(f, "LD [{:02X}], DT", vx),

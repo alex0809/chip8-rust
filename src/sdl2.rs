@@ -3,16 +3,16 @@ extern crate sdl2;
 use std::thread::sleep;
 use std::time::{Duration, Instant};
 
+use sdl2::audio::{AudioCallback, AudioSpecDesired};
 use sdl2::event::Event;
 use sdl2::pixels::Color;
 use sdl2::rect::Point;
 use sdl2::render::Canvas;
 use sdl2::video::Window;
-use sdl2::audio::{AudioCallback, AudioSpecDesired};
 
-use crate::interpreter::Interpreter;
-use crate::config::*;
 use self::sdl2::audio::AudioDevice;
+use crate::config::*;
+use crate::interpreter::Interpreter;
 
 const WHITE: Color = Color::RGB(255, 255, 255);
 const BLACK: Color = Color::RGB(0, 0, 0);
@@ -32,7 +32,9 @@ pub fn for_interpreter(interpreter: &mut Interpreter, step_mode: bool) -> Result
         .map_err(|e| e.to_string())?;
 
     let mut canvas = window.into_canvas().build().map_err(|e| e.to_string())?;
-    canvas.set_logical_size(SCREEN_X as u32, SCREEN_Y as u32).map_err(|e| e.to_string())?;
+    canvas
+        .set_logical_size(SCREEN_X as u32, SCREEN_Y as u32)
+        .map_err(|e| e.to_string())?;
     canvas.set_draw_color(BLACK);
     canvas.clear();
     canvas.present();
@@ -51,65 +53,59 @@ pub fn for_interpreter(interpreter: &mut Interpreter, step_mode: bool) -> Result
                 }
 
                 Event::KeyDown {
-                    keycode: Some(key),
-                    ..
-                } => {
-                    match key {
-                        EXIT_KEY => {
-                            break 'running;
-                        }
-                        RESET_KEY => {
-                            interpreter.reset();
-                        }
-                        INSTRUCTION_STEP_KEY => {
-                            if step_mode {
-                                interpreter.instruction_step();
-                            }
-                        }
-                        KEYPAD_1 => { interpreter.key_pressed(1) }
-                        KEYPAD_2 => { interpreter.key_pressed(2) }
-                        KEYPAD_3 => { interpreter.key_pressed(3) }
-                        KEYPAD_C => { interpreter.key_pressed(0xC) }
-                        KEYPAD_4 => { interpreter.key_pressed(4) }
-                        KEYPAD_5 => { interpreter.key_pressed(5) }
-                        KEYPAD_6 => { interpreter.key_pressed(6) }
-                        KEYPAD_D => { interpreter.key_pressed(0xD) }
-                        KEYPAD_7 => { interpreter.key_pressed(7) }
-                        KEYPAD_8 => { interpreter.key_pressed(8) }
-                        KEYPAD_9 => { interpreter.key_pressed(9) }
-                        KEYPAD_E => { interpreter.key_pressed(0xE) }
-                        KEYPAD_A => { interpreter.key_pressed(0xA) }
-                        KEYPAD_0 => { interpreter.key_pressed(0) }
-                        KEYPAD_B => { interpreter.key_pressed(0xB) }
-                        KEYPAD_F => { interpreter.key_pressed(0xF) }
-                        _ => {}
+                    keycode: Some(key), ..
+                } => match key {
+                    EXIT_KEY => {
+                        break 'running;
                     }
-                }
+                    RESET_KEY => {
+                        interpreter.reset();
+                    }
+                    INSTRUCTION_STEP_KEY => {
+                        if step_mode {
+                            interpreter.instruction_step();
+                        }
+                    }
+                    KEYPAD_1 => interpreter.key_pressed(1),
+                    KEYPAD_2 => interpreter.key_pressed(2),
+                    KEYPAD_3 => interpreter.key_pressed(3),
+                    KEYPAD_C => interpreter.key_pressed(0xC),
+                    KEYPAD_4 => interpreter.key_pressed(4),
+                    KEYPAD_5 => interpreter.key_pressed(5),
+                    KEYPAD_6 => interpreter.key_pressed(6),
+                    KEYPAD_D => interpreter.key_pressed(0xD),
+                    KEYPAD_7 => interpreter.key_pressed(7),
+                    KEYPAD_8 => interpreter.key_pressed(8),
+                    KEYPAD_9 => interpreter.key_pressed(9),
+                    KEYPAD_E => interpreter.key_pressed(0xE),
+                    KEYPAD_A => interpreter.key_pressed(0xA),
+                    KEYPAD_0 => interpreter.key_pressed(0),
+                    KEYPAD_B => interpreter.key_pressed(0xB),
+                    KEYPAD_F => interpreter.key_pressed(0xF),
+                    _ => {}
+                },
 
                 Event::KeyUp {
-                    keycode: Some(key),
-                    ..
-                } => {
-                    match key {
-                        KEYPAD_1 => { interpreter.key_released(1) }
-                        KEYPAD_2 => { interpreter.key_released(2) }
-                        KEYPAD_3 => { interpreter.key_released(3) }
-                        KEYPAD_C => { interpreter.key_released(0xC) }
-                        KEYPAD_4 => { interpreter.key_released(4) }
-                        KEYPAD_5 => { interpreter.key_released(5) }
-                        KEYPAD_6 => { interpreter.key_released(6) }
-                        KEYPAD_D => { interpreter.key_released(0xD) }
-                        KEYPAD_7 => { interpreter.key_released(7) }
-                        KEYPAD_8 => { interpreter.key_released(8) }
-                        KEYPAD_9 => { interpreter.key_released(9) }
-                        KEYPAD_E => { interpreter.key_released(0xE) }
-                        KEYPAD_A => { interpreter.key_released(0xA) }
-                        KEYPAD_0 => { interpreter.key_released(0) }
-                        KEYPAD_B => { interpreter.key_released(0xB) }
-                        KEYPAD_F => { interpreter.key_released(0xF) }
-                        _ => {}
-                    }
-                }
+                    keycode: Some(key), ..
+                } => match key {
+                    KEYPAD_1 => interpreter.key_released(1),
+                    KEYPAD_2 => interpreter.key_released(2),
+                    KEYPAD_3 => interpreter.key_released(3),
+                    KEYPAD_C => interpreter.key_released(0xC),
+                    KEYPAD_4 => interpreter.key_released(4),
+                    KEYPAD_5 => interpreter.key_released(5),
+                    KEYPAD_6 => interpreter.key_released(6),
+                    KEYPAD_D => interpreter.key_released(0xD),
+                    KEYPAD_7 => interpreter.key_released(7),
+                    KEYPAD_8 => interpreter.key_released(8),
+                    KEYPAD_9 => interpreter.key_released(9),
+                    KEYPAD_E => interpreter.key_released(0xE),
+                    KEYPAD_A => interpreter.key_released(0xA),
+                    KEYPAD_0 => interpreter.key_released(0),
+                    KEYPAD_B => interpreter.key_released(0xB),
+                    KEYPAD_F => interpreter.key_released(0xF),
+                    _ => {}
+                },
 
                 _ => {}
             }
@@ -164,13 +160,13 @@ fn prepare_sound(audio_subsystem: &sdl2::AudioSubsystem) -> AudioDevice<SquareWa
         samples: None,
     };
 
-    let device = audio_subsystem.open_playback(None, &desired_spec, |spec| {
-        SquareWave {
+    let device = audio_subsystem
+        .open_playback(None, &desired_spec, |spec| SquareWave {
             phase_inc: 440.0 / spec.freq as f32,
             phase: 0.0,
             volume: 0.25,
-        }
-    }).unwrap();
+        })
+        .unwrap();
 
     device.pause();
     device
@@ -196,4 +192,3 @@ impl AudioCallback for SquareWave {
         }
     }
 }
-

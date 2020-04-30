@@ -1,7 +1,7 @@
-use log::{Record, Metadata, LevelFilter};
+use log::{LevelFilter, Metadata, Record};
 
 struct StdoutLogger {
-    log_level: LevelFilter
+    log_level: LevelFilter,
 }
 
 impl StdoutLogger {
@@ -25,5 +25,6 @@ impl log::Log for StdoutLogger {
 
 pub fn init(level: LevelFilter) {
     log::set_boxed_logger(Box::new(StdoutLogger::new(level)))
-        .map(|()| log::set_max_level(level)).expect("Could not set logger");
+        .map(|()| log::set_max_level(level))
+        .expect("Could not set logger");
 }

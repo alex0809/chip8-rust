@@ -1,27 +1,27 @@
 extern crate rand;
 
-use log::{trace, debug};
+use log::{debug, trace};
 
 use rand::Rng;
 
 use std::fs::File;
 use std::io::Read;
 
-use memory::Memory;
-use stack::Stack;
 use display::Display;
 use keyboard::Keyboard;
+use memory::Memory;
+use stack::Stack;
 
-use crate::instruction::Instruction;
-use crate::interpreter::register::{Register, Register16Bit, Register8Bit};
 use crate::config::{SCREEN_X, SCREEN_Y};
+use crate::instruction::Instruction;
 use crate::interpreter::keyboard::NUMBER_OF_KEYS;
+use crate::interpreter::register::{Register, Register16Bit, Register8Bit};
 
 mod display;
+mod keyboard;
 mod memory;
 mod register;
 mod stack;
-mod keyboard;
 
 /// Holds the full state of an interpreter.
 pub struct Interpreter {
@@ -160,15 +160,11 @@ impl Interpreter {
                     self.waiting_for_key_press = false;
                 }
             }
-            return StepResult {
-                time_passed: 100,
-            };
+            return StepResult { time_passed: 100 };
         }
 
-        let instruction = Instruction::parse(
-            self.memory
-                .two_byte_read(self.program_counter.value()),
-        );
+        let instruction =
+            Instruction::parse(self.memory.two_byte_read(self.program_counter.value()));
         debug!(
             "{:4X} - Executing: {}",
             self.program_counter.value(),
@@ -356,7 +352,8 @@ impl Interpreter {
                 45
             }
             Instruction::AddVxToI(x) => {
-                let (value, _) = (self.v_registers[x as usize].value() as u16).overflowing_add(self.i_register.value());
+                let (value, _) = (self.v_registers[x as usize].value() as u16)
+                    .overflowing_add(self.i_register.value());
                 self.i_register.write_value(value);
                 86
             }
@@ -401,9 +398,7 @@ impl Interpreter {
         };
         trace!("\t---");
         trace!("---");
-        StepResult {
-            time_passed,
-        }
+        StepResult { time_passed }
     }
 
     /// Load a program given as byte-vector into memory.
